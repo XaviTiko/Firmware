@@ -120,7 +120,7 @@ static constexpr float HDG_HOLD_MAN_INPUT_THRESH =
 static constexpr hrt_abstime T_ALT_TIMEOUT = 1_s; // time after which we abort landing if terrain estimate is not valid
 
 static constexpr float THROTTLE_THRESH =
-	0.05f;	///< max throttle from user which will not lead to motors spinning up in altitude controlled modes
+	-.9f;	///< max throttle from user which will not lead to motors spinning up in altitude controlled modes
 static constexpr float MANUAL_THROTTLE_CLIMBOUT_THRESH =
 	0.85f; ///< a throttle / pitch input above this value leads to the system switching to climbout mode
 static constexpr float ALTHOLD_EPV_RESET_THRESH = 5.0f;

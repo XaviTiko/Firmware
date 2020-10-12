@@ -3958,7 +3958,7 @@ protected:
 			msg.target = mavlink_system.sysid;
 			msg.x = manual_control_setpoint.x * 1000;
 			msg.y = manual_control_setpoint.y * 1000;
-			msg.z = manual_control_setpoint.z * 1000;
+			msg.z = (manual_control_setpoint.z + 1.f) * .5f * 1000;
 			msg.r = manual_control_setpoint.r * 1000;
 			unsigned shift = 2;
 			msg.buttons = 0;

@@ -226,23 +226,10 @@ FixedwingPositionControl::vehicle_attitude_poll()
 float
 FixedwingPositionControl::get_demanded_airspeed()
 {
-	float altctrl_airspeed = 0;
-
 	// neutral throttle corresponds to trim airspeed
-	if (_manual_control_setpoint.z < 0.5f) {
-		// lower half of throttle is min to trim airspeed
-		altctrl_airspeed = _param_fw_airspd_min.get() +
-				   (_param_fw_airspd_trim.get() - _param_fw_airspd_min.get()) *
-				   _manual_control_setpoint.z * 2;
-
-	} else {
-		// upper half of throttle is trim to max airspeed
-		altctrl_airspeed = _param_fw_airspd_trim.get() +
-				   (_param_fw_airspd_max.get() - _param_fw_airspd_trim.get()) *
-				   (_manual_control_setpoint.z * 2 - 1);
-	}
-
-	return altctrl_airspeed;
+	return math::gradual3(_manual_control_setpoint.z,
+			      -1.f, 0.f, 1.f,
+			      _param_fw_airspd_min.get(), _param_fw_airspd_trim.get(), _param_fw_airspd_max.get());
 }
 
 float
@@ -842,7 +829,7 @@ FixedwingPositionControl::control_position(const hrt_abstime &now, const Vector2
 		/* throttle limiting */
 		throttle_max = _param_fw_thr_max.get();
 
-		if (_vehicle_land_detected.landed && (fabsf(_manual_control_setpoint.z) < THROTTLE_THRESH)) {
+		if (_vehicle_land_detected.landed && (_manual_control_setpoint.z < THROTTLE_THRESH)) {
 			throttle_max = 0.0f;
 		}
 
@@ -944,7 +931,7 @@ FixedwingPositionControl::control_position(const hrt_abstime &now, const Vector2
 		/* throttle limiting */
 		throttle_max = _param_fw_thr_max.get();
 
-		if (_vehicle_land_detected.landed && (fabsf(_manual_control_setpoint.z) < THROTTLE_THRESH)) {
+		if (_vehicle_land_detected.landed && (_manual_control_setpoint.z < THROTTLE_THRESH)) {
 			throttle_max = 0.0f;
 		}
 

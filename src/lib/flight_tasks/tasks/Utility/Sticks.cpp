@@ -54,7 +54,7 @@ bool Sticks::checkAndSetStickInputs(hrt_abstime now)
 		// Linear scale
 		_positions(0) = _sub_manual_control_setpoint.get().x; // NED x, pitch [-1,1]
 		_positions(1) = _sub_manual_control_setpoint.get().y; // NED y, roll [-1,1]
-		_positions(2) = -(_sub_manual_control_setpoint.get().z - 0.5f) * 2.f; // NED z, thrust resacaled from [0,1] to [-1,1]
+		_positions(2) = -_sub_manual_control_setpoint.get().z; // NED z, negative thrust [-1,1]
 		_positions(3) = _sub_manual_control_setpoint.get().r; // yaw [-1,1]
 
 		// Exponential scale

@@ -456,7 +456,7 @@ RCUpdate::Run()
 			manual_control_setpoint.y = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_ROLL, -1.0, 1.0);
 			manual_control_setpoint.x = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_PITCH, -1.0, 1.0);
 			manual_control_setpoint.r = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_YAW, -1.0, 1.0);
-			manual_control_setpoint.z = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_THROTTLE, 0.0, 1.0);
+			manual_control_setpoint.z = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_THROTTLE, -1.0, 1.0);
 			manual_control_setpoint.flaps = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_FLAPS, -1.0, 1.0);
 			manual_control_setpoint.aux1 = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_AUX_1, -1.0, 1.0);
 			manual_control_setpoint.aux2 = get_rc_value(rc_channels_s::RC_CHANNELS_FUNCTION_AUX_2, -1.0, 1.0);
@@ -533,7 +533,7 @@ RCUpdate::Run()
 			actuator_group_3.control[0] = manual_control_setpoint.y;
 			actuator_group_3.control[1] = manual_control_setpoint.x;
 			actuator_group_3.control[2] = manual_control_setpoint.r;
-			actuator_group_3.control[3] = manual_control_setpoint.z;
+			actuator_group_3.control[3] = (manual_control_setpoint.z + 1.f) * .5f;
 			actuator_group_3.control[4] = manual_control_setpoint.flaps;
 			actuator_group_3.control[5] = manual_control_setpoint.aux1;
 			actuator_group_3.control[6] = manual_control_setpoint.aux2;

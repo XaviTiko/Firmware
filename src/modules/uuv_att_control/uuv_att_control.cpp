@@ -249,7 +249,7 @@ void UUVAttitudeControl::Run()
 		if (_vcontrol_mode.flag_control_manual_enabled && !_vcontrol_mode.flag_control_rates_enabled) {
 			/* manual/direct control */
 			constrain_actuator_commands(_manual_control_setpoint.y, -_manual_control_setpoint.x,
-						    _manual_control_setpoint.r, _manual_control_setpoint.z);
+						    _manual_control_setpoint.r, (_manual_control_setpoint.z + 1.f) * .5f);
 		}
 
 	}

@@ -153,6 +153,7 @@ FixedwingAttitudeControl::vehicle_manual_poll()
 
 			if (!_vcontrol_mode.flag_control_climb_rate_enabled &&
 			    !_vcontrol_mode.flag_control_offboard_enabled) {
+				const float throttle = (_manual_control_setpoint.z + 1.f) * .5f;
 
 				if (_vcontrol_mode.flag_control_attitude_enabled) {
 					// STABILIZED mode generate the attitude setpoint from manual user inputs
@@ -167,7 +168,7 @@ FixedwingAttitudeControl::vehicle_manual_poll()
 								       -radians(_param_fw_man_p_max.get()), radians(_param_fw_man_p_max.get()));
 
 					_att_sp.yaw_body = 0.0f;
-					_att_sp.thrust_body[0] = _manual_control_setpoint.z;
+					_att_sp.thrust_body[0] = throttle;
 
 					Quatf q(Eulerf(_att_sp.roll_body, _att_sp.pitch_body, _att_sp.yaw_body));
 					q.copyTo(_att_sp.q_d);
@@ -184,7 +185,7 @@ FixedwingAttitudeControl::vehicle_manual_poll()
 					_rates_sp.roll = _manual_control_setpoint.y * radians(_param_fw_acro_x_max.get());
 					_rates_sp.pitch = -_manual_control_setpoint.x * radians(_param_fw_acro_y_max.get());
 					_rates_sp.yaw = _manual_control_setpoint.r * radians(_param_fw_acro_z_max.get());
-					_rates_sp.thrust_body[0] = _manual_control_setpoint.z;
+					_rates_sp.thrust_body[0] = throttle;
 
 					_rate_sp_pub.publish(_rates_sp);
 
@@ -196,7 +197,7 @@ FixedwingAttitudeControl::vehicle_manual_poll()
 						-_manual_control_setpoint.x * _param_fw_man_p_sc.get() + _param_trim_pitch.get();
 					_actuators.control[actuator_controls_s::INDEX_YAW] =
 						_manual_control_setpoint.r * _param_fw_man_y_sc.get() + _param_trim_yaw.get();
-					_actuators.control[actuator_controls_s::INDEX_THROTTLE] = _manual_control_setpoint.z;
+					_actuators.control[actuator_controls_s::INDEX_THROTTLE] = throttle;
 				}
 			}
 		}

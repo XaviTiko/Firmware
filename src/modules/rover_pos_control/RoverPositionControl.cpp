@@ -502,7 +502,7 @@ RoverPositionControl::run()
 				_act_controls.control[actuator_controls_s::INDEX_ROLL] = _manual_control_setpoint.y;
 				_act_controls.control[actuator_controls_s::INDEX_PITCH] = -_manual_control_setpoint.x;
 				_act_controls.control[actuator_controls_s::INDEX_YAW] = _manual_control_setpoint.r; //TODO: Readd yaw scale param
-				_act_controls.control[actuator_controls_s::INDEX_THROTTLE] = _manual_control_setpoint.z;
+				_act_controls.control[actuator_controls_s::INDEX_THROTTLE] = (_manual_control_setpoint.z + 1.f) * .5f;
 			}
 		}
 
